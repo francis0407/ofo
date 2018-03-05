@@ -106,6 +106,8 @@ def save_in_db(bikes):
     return 1
 
 
+
+
 f = open("position_with_class100.txt","r")
 position = json.loads(f.read())
 f.close()
@@ -131,7 +133,11 @@ f.close()
 # f = open("thread_test100.txt","w")
 # f.write(json.dumps(result))
 # f.close()
-date = "2018-3-5"
+date = "2018-3-6"
+while 1:
+    if time.strftime("%H:%M",time.localtime()) == "00:00":
+        break
+
 while 1:
     start_time = time.time()
     print("开始新的查询 当前时间:%s"%(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
@@ -142,12 +148,12 @@ while 1:
     history = []
     result = []
     total_point = len(position) * 4
-    for i in range(100):
+    for i in range(1):
         thread.append(threading.Thread(target=spider_with_class, args=(i, position, 0)))
-    for i in range(100):
+    for i in range(1):
         thread[i].setDaemon(True)
         thread[i].start()
-    for i in range(100):
+    for i in range(1):
         thread[i].join()
 
     # save_in_db()
@@ -156,7 +162,7 @@ while 1:
     print("本次共获取 %d 个"%(len(result)))
     finish_time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     save_record(start_time_string,finish_time_string,date,len(result))
-    while cur_time - start_time <= 900:
+    while cur_time - start_time <= 1200:
         time.sleep(10)
         cur_time = time.time()
 

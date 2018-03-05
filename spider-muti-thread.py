@@ -73,6 +73,17 @@ def spider_with_class(cls,position,ip=0):
     # lock.release()
     return
 
+def save_record(s,f,d,total):
+    import pymysql
+    try:
+        db = pymysql.connect("182.254.209.161", "root", "123456", "db_ofo", charset="utf8", port=3306)
+        cursor = db.cursor()
+        insert = "Insert into ofo_record (start_time,finish_time,total,date)VALUES('%s','%s',%d,'%s')"%(s,f,total,d)
+        cursor.execute(insert)
+        db.commit()
+    except:
+        db.rollback()
+        print("Record Error")
 def save_in_db(bikes):
     import pymysql
     db = 0
@@ -120,11 +131,11 @@ f.close()
 # f = open("thread_test100.txt","w")
 # f.write(json.dumps(result))
 # f.close()
-
+date = "2018-3-5"
 while 1:
     start_time = time.time()
     print("开始新的查询 当前时间:%s"%(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-
+    start_time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     proxy.getProxy()
 
     thread = []
@@ -143,6 +154,8 @@ while 1:
     cur_time = time.time()
     print("完成一次查询 当前时间:%s"%(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
     print("本次共获取 %d 个"%(len(result)))
+    finish_time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    save_record(start_time_string,finish_time_string,date,len(result))
     while cur_time - start_time <= 900:
         time.sleep(10)
         cur_time = time.time()

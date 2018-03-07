@@ -58,10 +58,10 @@ def getMaxMinLon_Lat(info):
 # max_lat = 0
 # min_lon = 1000
 # min_lat = 1000
-def BikeInsertString(bic):
+def BikeInsertString(bic,date):
     time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     stamp = time.time()
-    insert = "Insert into 2018_3_7(lng,lat,time,time_stamp)VALUES (%s,%s,'%s',%s)"%(str(bic['longitude']),str(bic['latitude']),time_string,str(stamp))
+    insert = "Insert into `%s`(lng,lat,time,time_stamp)VALUES (%s,%s,'%s',%s)"%(date,str(bic['longitude']),str(bic['latitude']),time_string,str(stamp))
     # print
     return insert
 

@@ -7,7 +7,7 @@ lock = threading.Lock()
 history = []
 result = []
 total_point = 0
-def spider_with_class(cls,position,ip=0):
+def spider_with_class(cls,position,ip=0,date="ofo_temp"):
     mypos = []
 
     for item in position:
@@ -63,8 +63,8 @@ def spider_with_class(cls,position,ip=0):
         if total_point % 4000 == 0:
             print("%s 本次剩余%d个"%(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),total_point))
         lock.release()
-        if not save_in_db(local):
-            while not save_in_db(local):
+        if not save_in_db(local,date):
+            while not save_in_db(local,date):
                 print("线程%d 数据库连接失败"%(cls))
             # save_in_db(local)
         # print("线程%d 剩余%d次 获取%d个 保存%d个"%(cls,i,info['body']['total'],count))
@@ -84,7 +84,7 @@ def save_record(s,f,d,total,ss,fs):
     except:
         db.rollback()
         print("Record Error")
-def save_in_db(bikes):
+def save_in_db(bikes,date):
     import pymysql
     db = 0
     try:
@@ -95,7 +95,7 @@ def save_in_db(bikes):
         return 0
     # global result
     for item in bikes:
-        insert = spider.BikeInsertString(item)
+        insert = spider.BikeInsertString(item,date)
         try:
             cursor.execute(insert)
             db.commit()
@@ -133,12 +133,14 @@ f.close()
 # f = open("thread_test100.txt","w")
 # f.write(json.dumps(result))
 # f.close()
-date = "2018-3-7"
+
 # while 1:
 #     if time.strftime("%H:%M",time.localtime()) == "00:00":
 #         break
 
 while 1:
+    date = time.strftime("%Y-%m-%d",time.localtime())
+
     start_time = time.time()
     print("开始新的查询 当前时间:%s"%(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
     start_time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -148,12 +150,12 @@ while 1:
     history = []
     result = []
     total_point = len(position) * 4
-    for i in range(1):
-        thread.append(threading.Thread(target=spider_with_class, args=(i, position, 0)))
-    for i in range(1):
+    for i in range(100):
+        thread.append(threading.Thread(target=spider_with_class, args=(i, position, 0,date)))
+    for i in range(100):
         thread[i].setDaemon(True)
         thread[i].start()
-    for i in range(1):
+    for i in range(100):
         thread[i].join()
 
     # save_in_db()

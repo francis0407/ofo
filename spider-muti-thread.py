@@ -106,8 +106,6 @@ def save_in_db(bikes,date):
     return 1
 
 
-
-
 f = open("position_with_class100.txt","r")
 position = json.loads(f.read())
 f.close()

@@ -32,16 +32,30 @@
 			size: new AMap.Size(3, 3)
 		});
 	}
-	// var points = [{
-	// 	"lnglat":[121.405929,31.259645],
-	// 	"name":"121.405929,31.259645",
-	// 	"style":900
-	// },{
-	// 	"lnglat":[121.415929,31.359645],
-	// 	"name":"121.405929,31.259645",
-	// 	"style":99
-	// }];
+	var pointss = [{
+		"lnglat":[121.38823388842907,31.245841501274622],
+		"name":"1",
+		"style":1
+	},{
+		"lnglat":[121.4196889357396,31.270805887301474],
+		"name":"2",
+		"style":2
+	},{
+		"lnglat":[121.40867135089297,31.285115335117897],
+		"name":"3",
+		"style":3
+	},{
+		"lnglat":[121.41457789374273,31.24008780361251],
+		"name":"4",
+		"style":4
+	},{
+		"lnglat":[121.42791242751068,31.234859428005784],
+		"name":"5",
+		"style":5
+	}
+	];
 	var mass = new AMap.MassMarks(points.filter(function(x){return x.style > 0;}),{
+	// var mass = new AMap.MassMarks(pointss,{
 		opacity:0.8,
 		zIndex: 111,
 		cursor:'pointer',

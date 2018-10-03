@@ -19,7 +19,7 @@
 >2. 将坐标映射为区域：(lng,lat,time) => (area,time)
 >3. 对相同区域的记录reduceByKey：(area,time)=>(area,[time0,time0,time1,...])
 >4. time列表排序去重:(area,[time1,time0,time1,...])=>(area,[time0,time1,...])
->5. 检测time列表存在多少个时刻t[i]满足: t[i] - t[i-1] < △t and t[i+1] - t[i] < △t 
+>5. 检测time列表存在多少个时刻t[i]满足: t[i] - t[i-1] > △t and t[i+1] - t[i] > △t 
 >6. 统计各区域满足上述情况是时刻数，按照此数量对area进行排序，输出最高m个area即为前m的潜在高需求区域
 
 ### 数据处理
